@@ -30,6 +30,7 @@ class ViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "route"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true
         return button
     }()
     
@@ -37,6 +38,7 @@ class ViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "reset"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true
         return button
     }()
     
@@ -78,6 +80,22 @@ extension ViewController {
             addAddressButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -20),
             addAddressButton.heightAnchor.constraint(equalToConstant: 70),
             addAddressButton.widthAnchor.constraint(equalToConstant: 70)
+        ])
+        
+        mapView.addSubview(routeButton)
+        NSLayoutConstraint.activate([
+            routeButton.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: 20),
+            routeButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor , constant: -30),
+            routeButton.heightAnchor.constraint(equalToConstant: 50),
+            routeButton.widthAnchor.constraint(equalToConstant: 130)
+        ])
+        
+        mapView.addSubview(resetButton)
+        NSLayoutConstraint.activate([
+            resetButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -20),
+            resetButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -30),
+            resetButton.heightAnchor.constraint(equalToConstant: 50),
+            resetButton.widthAnchor.constraint(equalToConstant: 130)
         ])
     }
 }
