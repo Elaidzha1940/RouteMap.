@@ -66,7 +66,7 @@ class ViewController: UIViewController {
     @objc func resetButtonTapped() {
         print("Reset")
     }
-    //    13th Street. 47 W 13th St, New York, NY 10011, USA
+    
     private func setupPlacemark(addressPlace: String) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(addressPlace) { [self] (placemarks, error) in
@@ -115,7 +115,7 @@ class ViewController: UIViewController {
             guard let response = response else {
                 self.alertError(title: "Error", message: "Route unavailable")
                 return
-            } 
+            }
         }
     }
 }
@@ -156,3 +156,7 @@ extension ViewController {
     }
 }
 
+
+//    13th Street. 47 W 13th St, New York, NY 10011, USA
+//    153 W 139TH ST APT 53B NEW YORK NY 10030-2239 USA
+//    475 W 57TH ST APT 18D1 NEW YORK NY 10019-1747 USA

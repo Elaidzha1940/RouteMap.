@@ -59,10 +59,10 @@
 				E4555C332BD0F2F400E324FA /* AppDelegate.swift */,
 				E4555C352BD0F2F400E324FA /* SceneDelegate.swift */,
 				E4555C372BD0F2F400E324FA /* ViewController.swift */,
+				E4555C472BD108D400E324FA /* Alert.swift */,
 				E4555C3C2BD0F2F500E324FA /* Assets.xcassets */,
 				E4555C3E2BD0F2F500E324FA /* LaunchScreen.storyboard */,
 				E4555C412BD0F2F500E324FA /* Info.plist */,
-				E4555C472BD108D400E324FA /* Alert.swift */,
 			);
 			path = RouteMap;
 			sourceTree = "<group>";
