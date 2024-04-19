@@ -96,7 +96,27 @@ class ViewController: UIViewController {
     }
     
     private func createDirectionRequest(stsrtCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) {
+        let stsrtLocation = MKPlacemark(coordinate: stsrtCoordinate)
+        let destinationLocation = MKPlacemark(coordinate: destinationCoordinate)
         
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: stsrtLocation)
+        request.destination = MKMapItem(placemark: destinationLocation)
+        request.transportType = .walking
+        request.requestsAlternateRoutes = true
+        
+        let direction = MKDirections(request: request)
+        direction.calculate { (response, error) in
+            
+            if let error = error {
+                print(error)
+                return
+            }
+            guard let response = response else {
+                self.alertError(title: "Error", message: "Route unavailable")
+                return
+            } 
+        }
     }
 }
 
