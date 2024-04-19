@@ -64,6 +64,24 @@ class ViewController: UIViewController {
     @objc func resetButtonTapped() {
         print("Reset")
     }
+//    13th Street. 47 W 13th St, New York, NY 10011, USA
+    private func setupPlacemark(addressPlace: String) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(addressPlace) { [self] (placemarks, error) in
+            if let error = error {
+                print(error)
+                alertError(title: "Error", message: "The server is not ready to handle the request.")
+                return
+            }
+            
+            guard let placemarks = placemarks else { return }
+            let placemark = placemarks.first
+            
+            let annotation = MKAnnotationView()
+            annotation.title = "\(addressPlace)"
+            guard let placemarkLocation = placemark?.location else { return }
+        }
+    }
 }
 
 extension ViewController {
