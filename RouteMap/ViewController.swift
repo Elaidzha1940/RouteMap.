@@ -42,6 +42,8 @@ class ViewController: UIViewController {
         return button
     }()
     
+    var annotationArray = [MKPointAnnotation]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setConstraints()
@@ -53,7 +55,7 @@ class ViewController: UIViewController {
     
     @objc func addAddressButtonTapped() {
         alertAddAddress(title: "Add", placeholder: "Type address") { text in
-             print(text)
+            print(text)
         }
     }
     
@@ -64,7 +66,7 @@ class ViewController: UIViewController {
     @objc func resetButtonTapped() {
         print("Reset")
     }
-//    13th Street. 47 W 13th St, New York, NY 10011, USA
+    //    13th Street. 47 W 13th St, New York, NY 10011, USA
     private func setupPlacemark(addressPlace: String) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(addressPlace) { [self] (placemarks, error) in
@@ -77,9 +79,19 @@ class ViewController: UIViewController {
             guard let placemarks = placemarks else { return }
             let placemark = placemarks.first
             
-            let annotation = MKAnnotationView()
+            let annotation = MKPointAnnotation()
             annotation.title = "\(addressPlace)"
             guard let placemarkLocation = placemark?.location else { return }
+            annotation.coordinate = placemarkLocation.coordinate
+            
+            annotationArray.append(annotation)
+            
+            if annotationArray.count > 2 {
+                routeButton.isHidden = false
+                resetButton.isHidden = false
+            }
+            
+            mapView.showAnnotations(annotationArray, animated: true)
         }
     }
 }
