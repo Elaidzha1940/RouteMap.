@@ -54,8 +54,8 @@ class ViewController: UIViewController {
     }
     
     @objc func addAddressButtonTapped() {
-        alertAddAddress(title: "Add", placeholder: "Type address") { text in
-            print(text)
+        alertAddAddress(title: "Add", placeholder: "Type address") { [self] text in
+            setupPlacemark(addressPlace: text)
         }
     }
     
@@ -94,6 +94,10 @@ class ViewController: UIViewController {
             mapView.showAnnotations(annotationArray, animated: true)
         }
     }
+    
+    private func createDirectionRequest(stsrtCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) {
+        
+    }
 }
 
 extension ViewController {
@@ -131,3 +135,4 @@ extension ViewController {
         ])
     }
 }
+
