@@ -46,6 +46,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
         setConstraints()
         
         addAddressButton.addTarget(self, action: #selector(addAddressButtonTapped), for: .touchUpInside)
@@ -116,8 +117,19 @@ class ViewController: UIViewController {
                 self.alertError(title: "Error", message: "Route unavailable")
                 return
             }
+            
+            var minRoute = response.routes[0]
+            for route in response.routes {
+                minRoute = (route.distance < minRoute.distance) ? route : minRoute
+            }
+            
+            self.mapView.addOverlay(minRoute.polyline)
         }
     }
+}
+
+extension ViewController: MKMapViewDelegate {
+    
 }
 
 extension ViewController {
