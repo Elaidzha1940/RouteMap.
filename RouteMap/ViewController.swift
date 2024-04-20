@@ -7,6 +7,15 @@
 //
 //  */
 
+//Address
+/*
+ 
+//    13th Street. 47 W 13th St, New York, NY 10011, USA
+//    475 W 57TH ST APT 18D1 NEW YORK NY 10019-1747 USA
+//    101 S OXFORD ST BROOKLYN NY 11217-4214 USA
+ 
+*/
+
 import UIKit
 import MapKit
 import CoreLocation
@@ -51,7 +60,7 @@ class ViewController: UIViewController {
         
         addAddressButton.addTarget(self, action: #selector(addAddressButtonTapped), for: .touchUpInside)
         routeButton.addTarget(self, action: #selector(routeButtonTapped), for: .touchUpInside)
-        routeButton.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
+        resetButton.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
     }
     
     @objc func addAddressButtonTapped() {
@@ -61,11 +70,19 @@ class ViewController: UIViewController {
     }
     
     @objc func routeButtonTapped() {
-        print("Route")
+        for index in 0..<annotationArray.count - 1 {
+            createDirectionRequest(stsrtCoordinate: annotationArray[index].coordinate, destinationCoordinate: annotationArray[index + 1].coordinate)
+        }
+        
+        mapView.showAnnotations(annotationArray, animated: true)
     }
     
     @objc func resetButtonTapped() {
-        print("Reset")
+        mapView.removeOverlays(mapView.overlays)
+        mapView.removeAnnotations(mapView.annotations)
+        annotationArray = [MKPointAnnotation]()
+        routeButton.isHidden = true
+        resetButton.isHidden = true
     }
     
     private func setupPlacemark(addressPlace: String) {
@@ -107,14 +124,14 @@ class ViewController: UIViewController {
         request.requestsAlternateRoutes = true
         
         let direction = MKDirections(request: request)
-        direction.calculate { (response, error) in
-            
+        direction.calculate { [self] (response, error) in
             if let error = error {
                 print(error)
                 return
             }
+            
             guard let response = response else {
-                self.alertError(title: "Error", message: "Route unavailable")
+                alertError(title: "Error", message: "Route unavailable")
                 return
             }
             
@@ -123,13 +140,22 @@ class ViewController: UIViewController {
                 minRoute = (route.distance < minRoute.distance) ? route : minRoute
             }
             
-            self.mapView.addOverlay(minRoute.polyline)
+            mapView.addOverlay(minRoute.polyline)
+            
         }
     }
 }
 
 extension ViewController: MKMapViewDelegate {
     
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let polyline = overlay as? MKPolyline {
+            let renderer = MKPolylineRenderer(polyline: polyline)
+            renderer.strokeColor = .brown
+            return renderer
+        }
+        return MKOverlayRenderer()
+    }
 }
 
 extension ViewController {
@@ -168,7 +194,3 @@ extension ViewController {
     }
 }
 
-
-//    13th Street. 47 W 13th St, New York, NY 10011, USA
-//    153 W 139TH ST APT 53B NEW YORK NY 10030-2239 USA
-//    475 W 57TH ST APT 18D1 NEW YORK NY 10019-1747 USA
